@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f8f3eb">
+  <meta name="description" content="A private clothing inventory.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+  <title>Vazi yaThrift — Closet Inventory</title>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">YOUR PRIVATE WARDROBE</p>
+        <h1>Vazi <span>yaThrift.</span></h1>
+        <p class="subheading">Every piece, in its place.</p>
+      </div>
+      <button id="backupButton" class="icon-button" aria-label="Backup inventory" title="Backup">↥</button>
+    </header>
+
+    <main>
+      <section id="inventoryScreen" class="screen">
+        <div class="section-heading">
+          <div><p class="eyebrow">YOUR COLLECTION</p><h2>My inventory</h2></div>
+          <button class="primary-button small" data-view="add">＋ Add item</button>
+        </div>
+
+        <section class="stats" aria-label="Inventory summary">
+          <article class="stat-card"><span>Total pieces</span><strong id="totalCount">0</strong><small>In your collection</small></article>
+          <article class="stat-card"><span>Available</span><strong id="availableCount">0</strong><small>Ready to wear / sell</small></article>
+          <article class="stat-card"><span>Sold</span><strong id="soldCount">0</strong><small>Already sold</small></article>
+        </section>
+
+        <div class="filter-row" id="statusFilters">
+          <button class="filter active" data-filter="All">All</button>
+          <button class="filter" data-filter="Available">Available</button>
+          <button class="filter" data-filter="Sold">Sold</button>
+        </div>
+        <div class="filter-row category-filters" id="categoryFilters">
+          <button class="category-filter active" data-category="All">All items</button>
+          <button class="category-filter" data-category="Tops">Tops</button>
+          <button class="category-filter" data-category="Bottoms">Bottoms</button>
+          <button class="category-filter" data-category="Dresses">Dresses</button>
+          <button class="category-filter" data-category="Shoes">Shoes</button>
+          <button class="category-filter" data-category="Other">Other</button>
+        </div>
+
+        <div class="collection-heading">
+          <h3>Your pieces</h3><span id="resultCount">0 items</span>
+        </div>
+        <div id="inventoryGrid" class="inventory-grid"></div>
+        <div id="emptyState" class="empty-state">
+          <div class="empty-icon">✳</div>
+          <h3>Your collection starts here</h3>
+          <p>Add a clothing photo, price and details to build your inventory.</p>
+          <button class="primary-button" data-view="add">＋ Add your first item</button>
+        </div>
+      </section>
+
+      <section id="detailsScreen" class="screen hidden">
+        <button class="back-button" data-view="inventory">← Back to inventory</button>
+        <div id="detailsContent"></div>
+      </section>
+
+      <section id="addScreen" class="screen hidden">
+        <button class="back-button" data-view="inventory">← Back to inventory</button>
+        <div class="form-heading"><p class="eyebrow">YOUR COLLECTION</p><h2 id="formTitle">Add a new piece</h2><p>Give your item a place in your collection.</p></div>
+
+        <form id="itemForm">
+          <input type="hidden" id="itemId">
+          <label class="upload-area" for="photoInput">
+            <div id="photoPlaceholder"><span class="upload-icon">＋</span><strong>Add item photo</strong><small>Choose a photo from your device</small></div>
+            <img id="photoPreview" class="photo-preview hidden" alt="Selected clothing preview">
+          </label>
+          <input id="photoInput" type="file" accept="image/*" class="visually-hidden">
+          <button id="removePhotoButton" type="button" class="text-button hidden">Remove photo</button>
+
+          <label class="field-label" for="itemName">Item name *</label>
+          <input id="itemName" class="text-input" placeholder="e.g. Vintage denim jacket" maxlength="100" required>
+
+          <label class="field-label" for="itemPrice">Price (TZS) *</label>
+          <div class="price-input"><span>TSh</span><input id="itemPrice" type="number" min="0" step="1" placeholder="25000" required></div>
+
+          <div class="form-columns">
+            <div><label class="field-label" for="itemCategory">Category</label>
+              <select id="itemCategory" class="text-input"><option>Tops</option><option>Bottoms</option><option>Dresses</option><option>Shoes</option><option>Bags</option><option>Accessories</option><option>Other</option></select>
+            </div>
+            <div><label class="field-label" for="itemSize">Size</label>
+              <select id="itemSize" class="text-input"><option>Not specified</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>Free size</option><option>Other</option></select>
+            </div>
+          </div>
+
+          <label class="field-label" for="itemQuantity">Quantity</label>
+          <input id="itemQuantity" class="text-input" type="number" min="1" max="9999" value="1" required>
+
+          <label class="field-label" for="itemStatus">Availability</label>
+          <select id="itemStatus" class="text-input"><option>Available</option><option>Sold</option></select>
+
+          <label class="field-label" for="itemNotes">Notes (optional)</label>
+          <textarea id="itemNotes" class="text-input" rows="3" maxlength="1000" placeholder="Colour, condition, or other details…"></textarea>
+
+          <button type="submit" class="primary-button save-button">Save item</button>
+          <button type="button" class="secondary-button full-width" data-view="inventory">Cancel</button>
+        </form>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Main navigation">
+      <button class="nav-button active" data-view="inventory"><span>▦</span>Inventory</button>
+      <button class="nav-button" data-view="add"><span>＋</span>Add item</button>
+      <button class="nav-button" id="navSold"><span>✓</span>Sold items</button>
+    </nav>
+    <p class="footer-note">YOUR COLLECTION · YOUR SPACE</p>
+  </div>
+
+  <input id="importInput" type="file" accept="application/json,.json" class="visually-hidden">
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>

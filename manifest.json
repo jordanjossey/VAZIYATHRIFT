@@ -1,0 +1,13 @@
+
+{
+  "id": "./",
+  "name": "Vazi yaThrift — Closet Inventory",
+  "short_name": "Closet",
+  "description": "A private, offline-friendly clothing inventory.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f8f3eb",
+  "theme_color": "#f8f3eb"
+}
